@@ -1,0 +1,14 @@
+[
+  {
+    "id": "fighter",
+    "sprite": "res://themes/fantasy/assets/characters/tiles/tile_0096.png"
+  },
+  {
+    "id": "healer",
+    "sprite": "res://themes/fantasy/assets/characters/tiles/tile_0084.png"
+  },
+  {
+    "id": "scout",
+    "sprite": "res://themes/fantasy/assets/characters/tiles/tile_0112.png"
+  }
+]

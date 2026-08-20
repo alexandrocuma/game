@@ -1,0 +1,38 @@
+[
+  {
+    "id": "healers_tent",
+    "cost": { "materials": 10, "gold": 5 },
+    "effect": "rest_hp_multiplier: 1.5",
+    "max_level": 1,
+    "theme_variants": {
+      "fantasy": { "label": "Healer's Tent", "sprite": "tent.png" }
+    }
+  },
+  {
+    "id": "storage_unit",
+    "cost": { "materials": 8 },
+    "effect": "carry_capacity_multiplier: 1.25",
+    "max_level": 1,
+    "theme_variants": {
+      "fantasy": { "label": "Storage Cache", "sprite": "storage.png" }
+    }
+  },
+  {
+    "id": "training_ground",
+    "cost": { "materials": 12, "gold": 8 },
+    "effect": "xp_multiplier: 1.2",
+    "max_level": 1,
+    "theme_variants": {
+      "fantasy": { "label": "Training Ground", "sprite": "training.png" }
+    }
+  },
+  {
+    "id": "watchtower",
+    "cost": { "materials": 15 },
+    "effect": "vision_radius: 2",
+    "max_level": 1,
+    "theme_variants": {
+      "fantasy": { "label": "Watchtower", "sprite": "watchtower.png" }
+    }
+  }
+]

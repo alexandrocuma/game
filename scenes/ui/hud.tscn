@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_hud"]
+
+[node name="HUD" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="TurnLabel" type="Label" parent="."]
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 150.0
+offset_bottom = 32.0
+text = "Turn 0"
+
+[node name="ResourceRow" type="HBoxContainer" parent="."]
+offset_left = 12.0
+offset_top = 34.0
+offset_right = 378.0
+offset_bottom = 58.0
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="FoodLabel" type="Label" parent="ResourceRow"]
+text = "Food 0"
+
+[node name="GoldLabel" type="Label" parent="ResourceRow"]
+text = "Gold 0"
+
+[node name="MaterialsLabel" type="Label" parent="ResourceRow"]
+text = "Mat 0"
+
+[node name="HeroBars" type="VBoxContainer" parent="."]
+offset_left = 12.0
+offset_top = 66.0
+offset_right = 140.0
+offset_bottom = 140.0
+mouse_filter = 2
+
+[node name="CampPanel" type="Panel" parent="."]
+offset_left = 45.0
+offset_top = 280.0
+offset_right = 345.0
+offset_bottom = 580.0
+
+[node name="RestButton" type="Button" parent="CampPanel"]
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 280.0
+offset_bottom = 48.0
+text = "Rest (heal, 1 turn)"
+
+[node name="BuildContainer" type="VBoxContainer" parent="CampPanel"]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 280.0
+offset_bottom = 284.0

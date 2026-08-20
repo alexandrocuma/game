@@ -1,0 +1,18 @@
+[
+  {
+    "id": "healers_tent",
+    "sprite": "res://themes/fantasy/assets/tiles/objects/campingTent.png"
+  },
+  {
+    "id": "storage_unit",
+    "sprite": "res://themes/fantasy/assets/tiles/objects/box1.png"
+  },
+  {
+    "id": "training_ground",
+    "sprite": "res://themes/fantasy/assets/tiles/objects/anvil.png"
+  },
+  {
+    "id": "watchtower",
+    "sprite": "res://themes/fantasy/assets/tiles/buildings/medieval_tower.png"
+  }
+]

@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/event_panel.gd" id="1_ep"]
+
+[node name="EventPanel" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_ep")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 20.0
+offset_top = 228.0
+offset_right = 370.0
+offset_bottom = 616.0
+
+[node name="TitleLabel" type="Label" parent="."]
+offset_left = 36.0
+offset_top = 244.0
+offset_right = 354.0
+offset_bottom = 280.0
+text = "Event"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="."]
+offset_left = 36.0
+offset_top = 284.0
+offset_right = 354.0
+offset_bottom = 400.0
+autowrap_mode = 2
+
+[node name="ResultLabel" type="Label" parent="."]
+offset_left = 36.0
+offset_top = 404.0
+offset_right = 354.0
+offset_bottom = 444.0
+autowrap_mode = 2
+
+[node name="ChoicesBox" type="VBoxContainer" parent="."]
+offset_left = 36.0
+offset_top = 448.0
+offset_right = 354.0
+offset_bottom = 556.0
+theme_override_constants/separation = 8
+
+[node name="ContinueButton" type="Button" parent="."]
+offset_left = 125.0
+offset_top = 564.0
+offset_right = 265.0
+offset_bottom = 600.0
+text = "Continue"

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "bandits_small",
+    "sprite": "res://themes/fantasy/assets/characters/tiles/tile_0123.png"
+  },
+  {
+    "id": "wolves_pack",
+    "sprite": "res://themes/fantasy/assets/characters/tiles/tile_0108.png"
+  },
+  {
+    "id": "mountain_troll",
+    "sprite": "res://themes/fantasy/assets/characters/tiles/tile_0122.png"
+  }
+]

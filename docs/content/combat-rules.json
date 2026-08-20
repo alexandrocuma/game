@@ -1,0 +1,7 @@
+{
+  "miss_chance": 0.10,
+  "crit_chance": 0.05,
+  "crit_multiplier": 2.0,
+  "variance": 0.10,
+  "enemy_stat_variance": 0.20
+}

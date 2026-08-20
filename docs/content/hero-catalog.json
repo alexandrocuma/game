@@ -1,0 +1,62 @@
+[
+  {
+    "id": "fighter",
+    "role": "fighter",
+    "base_stats": { "hp": 120, "stamina": 80, "attack": 15, "defense": 10 },
+    "passive": "frontline",
+    "ability": {
+      "id": "power_strike",
+      "stamina_cost": 20,
+      "effect": "attack_multiplier: 2.0"
+    },
+    "level_perks": {
+      "2": ["hp+20", "attack+3"],
+      "3": ["defense+5", "ability_upgrade"],
+      "4": ["hp+30", "stamina+10"],
+      "5": ["legendary_passive"]
+    },
+    "theme_variants": {
+      "fantasy": { "name": "Knight", "sprite": "knight.png" }
+    }
+  },
+  {
+    "id": "healer",
+    "role": "healer",
+    "base_stats": { "hp": 80, "stamina": 120, "attack": 8, "defense": 6 },
+    "passive": "post_event_heal",
+    "ability": {
+      "id": "mend",
+      "stamina_cost": 25,
+      "effect": "heal_team: 30"
+    },
+    "level_perks": {
+      "2": ["stamina+20", "hp+10"],
+      "3": ["ability_upgrade", "defense+3"],
+      "4": ["stamina+30", "hp+20"],
+      "5": ["legendary_passive"]
+    },
+    "theme_variants": {
+      "fantasy": { "name": "Cleric", "sprite": "cleric.png" }
+    }
+  },
+  {
+    "id": "scout",
+    "role": "scout",
+    "base_stats": { "hp": 90, "stamina": 100, "attack": 10, "defense": 7 },
+    "passive": "ambush_reduction",
+    "ability": {
+      "id": "survey",
+      "stamina_cost": 15,
+      "effect": "reveal_tiles: 2"
+    },
+    "level_perks": {
+      "2": ["stamina+15", "attack+2"],
+      "3": ["ability_upgrade", "hp+15"],
+      "4": ["attack+5", "defense+4"],
+      "5": ["legendary_passive"]
+    },
+    "theme_variants": {
+      "fantasy": { "name": "Ranger", "sprite": "ranger.png" }
+    }
+  }
+]

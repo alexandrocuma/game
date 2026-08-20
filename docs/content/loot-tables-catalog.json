@@ -1,0 +1,28 @@
+[
+  {
+    "id": "bandit_drops",
+    "rolls": 2,
+    "entries": [
+      { "resource": "gold",      "amount": [5, 15],  "weight": 0.5 },
+      { "resource": "food",      "amount": [3, 8],   "weight": 0.3 },
+      { "resource": "materials", "amount": [2, 5],   "weight": 0.2 }
+    ]
+  },
+  {
+    "id": "animal_drops",
+    "rolls": 1,
+    "entries": [
+      { "resource": "food",      "amount": [4, 10],  "weight": 0.7 },
+      { "resource": "materials", "amount": [1, 3],   "weight": 0.3 }
+    ]
+  },
+  {
+    "id": "troll_drops",
+    "rolls": 3,
+    "entries": [
+      { "resource": "gold",      "amount": [10, 25], "weight": 0.4 },
+      { "resource": "materials", "amount": [5, 12],  "weight": 0.4 },
+      { "resource": "food",      "amount": [3, 8],   "weight": 0.2 }
+    ]
+  }
+]

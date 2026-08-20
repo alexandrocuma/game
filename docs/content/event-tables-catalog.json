@@ -1,0 +1,41 @@
+[
+  {
+    "id": "wilderness_standard",
+    "events": [
+      { "event_id": "ambush_bandits",  "weight": 0.3 },
+      { "event_id": "find_berries",    "weight": 0.4 },
+      { "event_id": "abandoned_camp",  "weight": 0.2 },
+      { "event_id": "quiet_wind",      "weight": 0.1 }
+    ]
+  },
+  {
+    "id": "wilderness_harsh",
+    "events": [
+      { "event_id": "ambush_bandits",   "weight": 0.4 },
+      { "event_id": "rockslide_hazard", "weight": 0.3 },
+      { "event_id": "quiet_wind",       "weight": 0.2 },
+      { "event_id": "find_berries",     "weight": 0.1 }
+    ]
+  },
+  {
+    "id": "resource_gather",
+    "events": [
+      { "event_id": "old_mine_cache",  "weight": 0.8 },
+      { "event_id": "ambush_bandits",  "weight": 0.2 }
+    ]
+  },
+  {
+    "id": "discovery_unique",
+    "events": [
+      { "event_id": "lost_traveler",   "weight": 0.5 },
+      { "event_id": "abandoned_camp",  "weight": 0.3 },
+      { "event_id": "quiet_wind",      "weight": 0.2 }
+    ]
+  },
+  {
+    "id": "win_condition",
+    "events": [
+      { "event_id": "reached_destination", "weight": 1.0 }
+    ]
+  }
+]

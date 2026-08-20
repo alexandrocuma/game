@@ -1,0 +1,86 @@
+[
+  {
+    "id": "camp_player",
+    "category": "camp_player",
+    "movement_cost": 0,
+    "event_table": null,
+    "encounter_chance": 0.0,
+    "resource_types": [],
+    "buildable": false,
+    "theme_variants": {
+      "fantasy": { "label": "Your Camp", "sprite": "camp.png" }
+    }
+  },
+  {
+    "id": "wilderness_plains",
+    "category": "wilderness",
+    "movement_cost": 1,
+    "event_table": "wilderness_standard",
+    "encounter_chance": 0.5,
+    "resource_types": ["food"],
+    "buildable": true,
+    "theme_variants": {
+      "fantasy": { "label": "Open Plains", "sprite": "plains.png" }
+    }
+  },
+  {
+    "id": "wilderness_forest",
+    "category": "wilderness",
+    "movement_cost": 1,
+    "event_table": "wilderness_standard",
+    "encounter_chance": 0.65,
+    "resource_types": ["food", "materials"],
+    "buildable": true,
+    "theme_variants": {
+      "fantasy": { "label": "Dense Forest", "sprite": "forest.png" }
+    }
+  },
+  {
+    "id": "wilderness_mountain",
+    "category": "wilderness",
+    "movement_cost": 2,
+    "event_table": "wilderness_harsh",
+    "encounter_chance": 0.7,
+    "resource_types": ["materials"],
+    "buildable": false,
+    "theme_variants": {
+      "fantasy": { "label": "Mountain Pass", "sprite": "mountain.png" }
+    }
+  },
+  {
+    "id": "resource_mine",
+    "category": "resource_node",
+    "movement_cost": 1,
+    "event_table": "resource_gather",
+    "encounter_chance": 0.2,
+    "resource_types": ["materials", "gold"],
+    "buildable": false,
+    "theme_variants": {
+      "fantasy": { "label": "Old Mine", "sprite": "mine.png" }
+    }
+  },
+  {
+    "id": "discovery_ruins",
+    "category": "discovery",
+    "movement_cost": 1,
+    "event_table": "discovery_unique",
+    "encounter_chance": 1.0,
+    "resource_types": [],
+    "buildable": false,
+    "theme_variants": {
+      "fantasy": { "label": "Ancient Ruins", "sprite": "ruins.png" }
+    }
+  },
+  {
+    "id": "destination",
+    "category": "discovery",
+    "movement_cost": 1,
+    "event_table": "win_condition",
+    "encounter_chance": 1.0,
+    "resource_types": [],
+    "buildable": false,
+    "theme_variants": {
+      "fantasy": { "label": "The Lost Citadel", "sprite": "citadel.png" }
+    }
+  }
+]

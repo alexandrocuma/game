@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/world_map.gd" id="1_wm"]
+
+[node name="WorldMap" type="Node"]
+script = ExtResource("1_wm")
+
+[node name="WorldTilemap" type="TileMapLayer" parent="."]
+
+[node name="FogTilemap" type="TileMapLayer" parent="."]
+z_index = 1

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "hazard_regrowth_wilds",
+    "event_type": "periodic",
+    "type": "hazard_regrowth",
+    "trigger_turn": 15,
+    "interval_turns": 15,
+    "payload": { "categories": ["wilderness"] }
+  }
+]

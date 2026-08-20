@@ -1,0 +1,110 @@
+[
+  {
+    "id": "ambush_bandits",
+    "type": "combat",
+    "weight": 0.3,
+    "triggers": { "tile_categories": ["wilderness", "dungeon"] },
+    "scout_reduces_chance": true,
+    "enemy_group": "bandits_small",
+    "theme_variants": {
+      "fantasy": { "title": "Ambush!", "description": "Bandits leap from the trees." }
+    }
+  },
+  {
+    "id": "find_berries",
+    "type": "gather",
+    "weight": 0.4,
+    "triggers": { "tile_categories": ["wilderness"] },
+    "scout_reduces_chance": false,
+    "resources": { "food": [3, 8] },
+    "theme_variants": {
+      "fantasy": { "title": "Wild Berries", "description": "The team finds a berry patch. Enough for a meal." }
+    }
+  },
+  {
+    "id": "abandoned_camp",
+    "type": "encounter",
+    "weight": 0.2,
+    "triggers": { "tile_categories": ["wilderness"] },
+    "scout_reduces_chance": false,
+    "choices": [
+      {
+        "label": "Search it",
+        "outcome": { "type": "resource_gain", "gold": 8, "materials": 4 }
+      },
+      {
+        "label": "Leave it",
+        "outcome": { "type": "nothing" }
+      }
+    ],
+    "theme_variants": {
+      "fantasy": { "title": "Abandoned Camp", "description": "Someone was here recently. They left in a hurry." }
+    }
+  },
+  {
+    "id": "quiet_wind",
+    "type": "quiet",
+    "weight": 0.1,
+    "triggers": { "tile_categories": ["wilderness", "wilderness_forest", "wilderness_plains"] },
+    "scout_reduces_chance": false,
+    "theme_variants": {
+      "fantasy": { "title": "All Quiet", "description": "The wind stirs the leaves. Nothing moves." }
+    }
+  },
+  {
+    "id": "lost_traveler",
+    "type": "encounter",
+    "weight": 0.15,
+    "triggers": { "tile_categories": ["wilderness"] },
+    "scout_reduces_chance": false,
+    "choices": [
+      {
+        "label": "Help them",
+        "outcome": { "type": "resource_gain", "gold": 5, "xp": 10 }
+      },
+      {
+        "label": "Ignore them",
+        "outcome": { "type": "nothing" }
+      },
+      {
+        "label": "Rob them",
+        "outcome": { "type": "resource_gain", "gold": 15, "team_morale": -1 }
+      }
+    ],
+    "theme_variants": {
+      "fantasy": { "title": "A Stranger", "description": "A weary traveler stumbles toward you." }
+    }
+  },
+  {
+    "id": "rockslide_hazard",
+    "type": "hazard",
+    "weight": 0.25,
+    "triggers": { "tile_categories": ["wilderness_mountain"] },
+    "scout_reduces_chance": false,
+    "effect": { "type": "team_damage", "amount": [10, 25] },
+    "theme_variants": {
+      "fantasy": { "title": "Rockslide!", "description": "Stones crash down the mountain path. The team scrambles to safety." }
+    }
+  },
+  {
+    "id": "old_mine_cache",
+    "type": "gather",
+    "weight": 0.8,
+    "triggers": { "tile_categories": ["resource_node"] },
+    "scout_reduces_chance": false,
+    "resources": { "materials": [5, 12], "gold": [3, 8] },
+    "theme_variants": {
+      "fantasy": { "title": "Mine Cache", "description": "Abandoned tools and ore. Useful." }
+    }
+  },
+  {
+    "id": "reached_destination",
+    "type": "win",
+    "weight": 1.0,
+    "triggers": { "tile_categories": ["discovery"] },
+    "scout_reduces_chance": false,
+    "theme_variants": {
+      "fantasy": { "title": "The Lost Citadel", "description": "You have reached the end of the journey. The citadel rises before you." }
+    }
+  }
+]

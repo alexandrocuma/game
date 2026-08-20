@@ -1,0 +1,8 @@
+# Godot engine files
+.godot/
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp

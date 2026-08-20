@@ -1,0 +1,30 @@
+[
+  {
+    "id": "camp_player",
+    "sprite": "res://themes/fantasy/assets/tiles/buildings/medieval_cabin.png"
+  },
+  {
+    "id": "wilderness_plains",
+    "sprite": "res://themes/fantasy/assets/tiles/terrain/Grass/grass_05.png"
+  },
+  {
+    "id": "wilderness_forest",
+    "sprite": "res://themes/fantasy/assets/tiles/terrain/Grass/grass_12.png"
+  },
+  {
+    "id": "wilderness_mountain",
+    "sprite": "res://themes/fantasy/assets/tiles/terrain/Dirt/dirt_18.png"
+  },
+  {
+    "id": "resource_mine",
+    "sprite": "res://themes/fantasy/assets/tiles/buildings/medieval_mine.png"
+  },
+  {
+    "id": "discovery_ruins",
+    "sprite": "res://themes/fantasy/assets/tiles/buildings/medieval_ruins.png"
+  },
+  {
+    "id": "destination",
+    "sprite": "res://themes/fantasy/assets/tiles/buildings/medieval_largeCastle.png"
+  }
+]
