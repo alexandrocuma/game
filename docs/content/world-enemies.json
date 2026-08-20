@@ -1,0 +1,20 @@
+[
+  {
+    "id": "patrol_bandits_east",
+    "enemy_group": "bandits_small",
+    "spawn_pos": [3, -1],
+    "waypoints": [[3, -1], [4, -2], [3, -3]],
+    "aggro_radius": 2,
+    "sleep_until_turn": 0,
+    "category": "patrol"
+  },
+  {
+    "id": "wolves_north",
+    "enemy_group": "wolves_pack",
+    "spawn_pos": [1, -3],
+    "waypoints": [[1, -3], [2, -3], [2, -4]],
+    "aggro_radius": 2,
+    "sleep_until_turn": 3,
+    "category": "patrol"
+  }
+]

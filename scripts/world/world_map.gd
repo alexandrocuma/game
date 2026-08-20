@@ -2,15 +2,18 @@ extends Node
 
 @onready var world_tilemap: TileMapLayer = $WorldTilemap
 @onready var fog_tilemap: TileMapLayer = $FogTilemap
+@onready var enemy_container: Node2D = $EnemyContainer
 
 # Tiles are 120x140 pointy-top hexes (Kenney Hexagon Pack).
 const TILE_SIZE := Vector2i(120, 140)
 const MAP_LAYOUT_PATH := "res://docs/content/world-map.json"
 const FOG_TEXTURE_PATH := "res://themes/fantasy/assets/fog_hex.png"
+const ENEMY_TEXTURE_PATH := "res://themes/fantasy/assets/characters/tiles/tile_0106.png"
 const FOG_SOURCE_ID := 0
 const FOG_ATLAS_COORDS := Vector2i(0, 0)
 
 var _tile_sources: Dictionary = {}  # tile_id -> atlas source id
+var _enemy_sprites: Dictionary = {}  # enemy_id -> Sprite2D
 
 func _ready() -> void:
 	_build_tilesets()
@@ -77,12 +80,56 @@ func setup_fog() -> void:
 	for cell: Vector2i in world_tilemap.get_used_cells():
 		fog_tilemap.set_cell(cell, FOG_SOURCE_ID, FOG_ATLAS_COORDS)
 
+func spawn_enemy_tokens() -> void:
+	for enemy in GameState.enemy_states:
+		_create_enemy_token(enemy)
+	_sync_enemy_visibility()
+
+func refresh_enemy_position(id: String, pos: Vector2i) -> void:
+	var sprite: Sprite2D = _enemy_sprites.get(id)
+	if sprite == null:
+		var enemy := GameState.get_enemy_state(id)
+		if not enemy.is_empty():
+			_create_enemy_token(enemy)
+	else:
+		sprite.position = world_tilemap.map_to_local(pos)
+	_sync_enemy_visibility()
+
+func clear_enemy_token(id: String) -> void:
+	var sprite: Sprite2D = _enemy_sprites.get(id)
+	if sprite != null:
+		sprite.queue_free()
+		_enemy_sprites.erase(id)
+
+func _create_enemy_token(enemy: Dictionary) -> void:
+	if not ResourceLoader.exists(ENEMY_TEXTURE_PATH):
+		push_warning("WorldMap: missing enemy texture %s" % ENEMY_TEXTURE_PATH)
+		return
+	var sprite := Sprite2D.new()
+	sprite.name = "Enemy_%s" % enemy["id"]
+	sprite.texture = load(ENEMY_TEXTURE_PATH)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.scale = Vector2(3, 3)
+	sprite.position = world_tilemap.map_to_local(enemy["pos"])
+	sprite.z_index = 3
+	enemy_container.add_child(sprite)
+	_enemy_sprites[enemy["id"]] = sprite
+
+func _sync_enemy_visibility() -> void:
+	for id in _enemy_sprites:
+		var enemy := GameState.get_enemy_state(id)
+		if enemy.is_empty():
+			continue
+		var hidden := fog_tilemap.get_cell_source_id(enemy["pos"]) != -1
+		_enemy_sprites[id].visible = not hidden
+
 func reveal_around(center: Vector2i, radius: int) -> void:
 	# Fog clearing only — do NOT mark explored here. "Explored" means
 	# "visited by the team" (GameState.mark_explored on entry); revealed
 	# tiles around the team are visible but their events must still fire.
 	for pos in _cells_within_radius(center, radius):
 		fog_tilemap.erase_cell(pos)
+	_sync_enemy_visibility()
 
 func get_tile_id(pos: Vector2i) -> String:
 	var td: TileData = world_tilemap.get_cell_tile_data(pos)

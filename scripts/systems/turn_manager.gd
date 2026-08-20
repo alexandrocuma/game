@@ -5,6 +5,7 @@ enum State { PLAYER_INPUT, ANIMATING, EVENT, CAMP, WORLD_TICK }
 signal state_changed(new_state: State)
 signal reachable_tiles_updated(tiles: Array)
 signal hero_moved(from: Vector2i, to: Vector2i)
+signal enemy_moved(id: String, from: Vector2i, to: Vector2i)
 signal world_ticked(turn: int)
 signal level_up_pending(hero_index: int, perk_options: Array)
 signal game_over()
@@ -14,12 +15,25 @@ signal game_won()
 @onready var event_manager: Node = get_node("../EventManager")
 @onready var world_tilemap: TileMapLayer = get_node("../WorldMap/WorldTilemap")
 
+const EnemyAIClass := preload("res://scripts/systems/enemy_ai.gd")
+
 var state: State = State.PLAYER_INPUT
 var _pending_level_ups: Array = []
+var _pending_combat: Dictionary = {}
+var _pending_combat_enemy_id: String = ""
 var world_events := WorldEvents.new()
+var _enemy_ai := EnemyAIClass.new()
 
 func _ready() -> void:
 	event_manager.event_resolved.connect(_on_event_resolved)
+	_enemy_ai.enemy_moved.connect(_on_enemy_moved)
+	_enemy_ai.combat_triggered.connect(_on_enemy_combat_triggered)
+
+func _on_enemy_moved(id: String, from: Vector2i, to: Vector2i) -> void:
+	enemy_moved.emit(id, from, to)
+
+func _on_enemy_combat_triggered(id: String, enemy_group: String) -> void:
+	_pending_combat = {"enemy_id": id, "enemy_group": enemy_group}
 
 # --- Public API called by UI ---
 
@@ -89,6 +103,10 @@ func _on_animation_done(target: Vector2i) -> void:
 	GameState.last_safe_position = prev
 	_reveal_around(target)
 
+	if _check_enemy_contact():
+		_start_enemy_combat(_pending_combat)
+		return
+
 	if not GameState.is_explored(target):
 		GameState.mark_explored(target)
 		_enter_state(State.EVENT)
@@ -99,6 +117,11 @@ func _on_animation_done(target: Vector2i) -> void:
 # --- Event resolution ---
 
 func _on_event_resolved(result: Dictionary) -> void:
+	if result.get("type") == "combat" and result.get("outcome") == "victory" and _pending_combat_enemy_id != "":
+		GameState.remove_enemy(_pending_combat_enemy_id)
+		world_map.clear_enemy_token(_pending_combat_enemy_id)
+	_pending_combat_enemy_id = ""
+
 	if result.get("type") == "win":
 		game_won.emit()
 		return
@@ -121,12 +144,29 @@ func _on_event_resolved(result: Dictionary) -> void:
 		_broadcast_reachable()
 		return
 
+	if _check_enemy_contact():
+		_start_enemy_combat(_pending_combat)
+		return
+
 	var tile_def: Dictionary = world_map.get_tile_def(GameState.team_position)
 	_run_world_tick(tile_def.get("movement_cost", 1))
 
 func _continue_after_event() -> void:
+	if _check_enemy_contact():
+		_start_enemy_combat(_pending_combat)
+		return
 	var tile_def: Dictionary = world_map.get_tile_def(GameState.team_position)
 	_run_world_tick(tile_def.get("movement_cost", 1))
+
+func _check_enemy_contact() -> bool:
+	var enemy := GameState.enemy_at(GameState.team_position)
+	if enemy.is_empty():
+		return false
+	var def: Dictionary = DataStore.world_enemies.get(enemy["id"], {})
+	if def.is_empty():
+		return false
+	_pending_combat = {"enemy_id": enemy["id"], "enemy_group": def["enemy_group"]}
+	return true
 
 func _prompt_next_level_up() -> void:
 	if _pending_level_ups.is_empty():
@@ -144,6 +184,9 @@ func _run_world_tick(times: int) -> void:
 	_enter_state(State.WORLD_TICK)
 	for _i in range(times):
 		_tick_once()
+		if not _pending_combat.is_empty():
+			_start_enemy_combat(_pending_combat)
+			return
 
 	if not GameState.is_alive():
 		game_over.emit()
@@ -158,8 +201,28 @@ func _tick_once() -> void:
 		GameState.resources["food"] -= 1
 	else:
 		GameState.damage_team(GameState.HUNGER_DAMAGE)
+
+	_enemy_ai.process_turn(GameState.turn, world_tilemap)
+	if not _pending_combat.is_empty():
+		return
+
 	world_events.process_turn(GameState.turn, world_tilemap)
 	world_ticked.emit(GameState.turn)
+
+func _start_enemy_combat(payload: Dictionary) -> void:
+	var enemy_id: String = payload["enemy_id"]
+	var group_id: String = payload["enemy_group"]
+	_pending_combat.clear()
+	_pending_combat_enemy_id = ""
+
+	if not DataStore.enemies.has(group_id):
+		_enter_state(State.PLAYER_INPUT)
+		_broadcast_reachable()
+		return
+
+	_pending_combat_enemy_id = enemy_id
+	_enter_state(State.EVENT)
+	event_manager.resolve_combat(DataStore.enemies[group_id], {"enemy_id": enemy_id})
 
 # --- Camp actions ---
 

@@ -72,8 +72,11 @@ func _handle_combat(event: Dictionary) -> void:
 	if not DataStore.enemies.has(group_id):
 		event_resolved.emit({"type": "combat", "outcome": "no_enemy"})
 		return
+	resolve_combat(DataStore.enemies[group_id], {})
 
-	var enemy_group: Dictionary = DataStore.enemies[group_id]
+# Public entry point for combat not triggered by a tile event (e.g. roaming enemies).
+# `context` is merged into the event_resolved result so callers can attach metadata.
+func resolve_combat(enemy_group: Dictionary, context: Dictionary = {}) -> void:
 	combat_started.emit(enemy_group)
 
 	var outcome := CombatResolver.resolve(GameState.team, enemy_group)
@@ -85,24 +88,29 @@ func _handle_combat(event: Dictionary) -> void:
 			GameState.team[i]["hp"] = outcome["final_hero_states"][i]["hp"]
 			GameState.team[i]["stamina"] = outcome["final_hero_states"][i]["stamina"]
 
+	var result: Dictionary
 	if outcome["result"] == "victory":
 		var xp := _xp_with_multiplier(enemy_group.get("xp_reward", 0))
 		var level_ups := GameState.add_xp(xp)
 		var loot := _roll_loot(enemy_group.get("loot_table", ""))
 		GameState.add_resources(loot)
 		GameState.apply_healer_passive()
-		event_resolved.emit({
+		result = {
 			"type": "combat",
 			"outcome": "victory",
 			"xp": xp,
 			"loot": loot,
 			"level_ups": level_ups,
-		})
+		}
 	else:
 		# Reset explored so combat tile can be re-entered
 		GameState.unmark_explored(GameState.team_position)
 		GameState.retreat()
-		event_resolved.emit({"type": "combat", "outcome": "defeat"})
+		result = {"type": "combat", "outcome": "defeat"}
+
+	for key in context:
+		result[key] = context[key]
+	event_resolved.emit(result)
 
 func _handle_gather(event: Dictionary) -> void:
 	var raw: Dictionary = event.get("resources", {})

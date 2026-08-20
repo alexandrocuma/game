@@ -9,6 +9,7 @@ var loot_tables: Dictionary = {}
 var upgrades: Dictionary = {}
 var combat_rules: Dictionary = {}
 var world_events: Dictionary = {}
+var world_enemies: Dictionary = {}
 
 const DATA_DIR := "res://docs/content/"
 const THEME_DIR := "res://themes/"
@@ -38,6 +39,8 @@ func _load_all() -> void:
 	combat_rules = _read_json_dict(DATA_DIR + "combat-rules.json")
 	for entry in _read_json(DATA_DIR + "world-events.json"):
 		world_events[entry["id"]] = entry
+	for entry in _read_json(DATA_DIR + "world-enemies.json"):
+		world_enemies[entry["id"]] = entry
 
 func _flatten_theme_variants() -> void:
 	for store in [tiles, events, heroes, enemies, upgrades]:

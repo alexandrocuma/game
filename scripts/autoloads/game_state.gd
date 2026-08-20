@@ -16,6 +16,7 @@ var camp_position: Vector2i = Vector2i.ZERO
 var explored_tiles: Dictionary = {}
 var camp_upgrades: Array = []
 var team_xp: int = 0
+var enemy_states: Array = []
 
 func init_run(hero_ids: Array, start_pos: Vector2i) -> void:
 	turn = 0
@@ -30,6 +31,20 @@ func init_run(hero_ids: Array, start_pos: Vector2i) -> void:
 	for id in hero_ids:
 		var def: Dictionary = DataStore.heroes[id]
 		team.append(_make_hero_state(def))
+	_enemy_states_from_catalog()
+
+func _enemy_states_from_catalog() -> void:
+	enemy_states.clear()
+	for id in DataStore.world_enemies:
+		var def: Dictionary = DataStore.world_enemies[id]
+		var pos := Vector2i(int(def["spawn_pos"][0]), int(def["spawn_pos"][1]))
+		enemy_states.append({
+			"id": id,
+			"pos": pos,
+			"state": "patrol",
+			"waypoint_index": 0,
+			"sleep_until_turn": int(def.get("sleep_until_turn", 0)),
+		})
 
 func _make_hero_state(def: Dictionary) -> Dictionary:
 	var stats: Dictionary = def["base_stats"]
@@ -169,6 +184,21 @@ func is_alive() -> bool:
 			return true
 	return false
 
+func get_enemy_state(id: String) -> Dictionary:
+	for e in enemy_states:
+		if e["id"] == id:
+			return e
+	return {}
+
+func remove_enemy(id: String) -> void:
+	enemy_states = enemy_states.filter(func(e): return e["id"] != id)
+
+func enemy_at(pos: Vector2i) -> Dictionary:
+	for e in enemy_states:
+		if e["pos"] == pos:
+			return e
+	return {}
+
 # --- Save / Load ---
 
 func save() -> void:
@@ -196,6 +226,7 @@ func to_dict() -> Dictionary:
 		"explored_tiles": explored_tiles.keys().map(_v2i),
 		"camp_upgrades": camp_upgrades,
 		"team_xp": team_xp,
+		"enemy_states": enemy_states.map(_enemy_to_dict),
 	}
 
 func from_dict(d: Dictionary) -> void:
@@ -210,6 +241,27 @@ func from_dict(d: Dictionary) -> void:
 		explored_tiles[_iv2(v)] = true
 	camp_upgrades = d["camp_upgrades"]
 	team_xp = d["team_xp"]
+	enemy_states = []
+	for e in d.get("enemy_states", []):
+		enemy_states.append(_enemy_from_dict(e))
+
+func _enemy_to_dict(e: Dictionary) -> Dictionary:
+	return {
+		"id": e["id"],
+		"pos": _v2i(e["pos"]),
+		"state": e["state"],
+		"waypoint_index": e["waypoint_index"],
+		"sleep_until_turn": e["sleep_until_turn"],
+	}
+
+func _enemy_from_dict(d: Dictionary) -> Dictionary:
+	return {
+		"id": d["id"],
+		"pos": _iv2(d["pos"]),
+		"state": d["state"],
+		"waypoint_index": d["waypoint_index"],
+		"sleep_until_turn": d["sleep_until_turn"],
+	}
 
 func _v2i(v: Vector2i) -> Dictionary:
 	return {"x": v.x, "y": v.y}

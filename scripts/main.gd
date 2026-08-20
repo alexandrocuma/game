@@ -12,9 +12,11 @@ const CAMP_TILE_POS := Vector2i(0, 0)  # Set to your camp tile's map coords
 func _ready() -> void:
 	GameState.init_run(DEFAULT_TEAM, CAMP_TILE_POS)
 	world_map_node.setup_fog()
+	world_map_node.spawn_enemy_tokens()
 	_position_hero(CAMP_TILE_POS)
 	turn_manager_node.start()
 	turn_manager_node.hero_moved.connect(_on_hero_moved)
+	turn_manager_node.enemy_moved.connect(_on_enemy_moved)
 	turn_manager_node.game_over.connect(_on_game_over)
 	turn_manager_node.game_won.connect(_on_game_won)
 
@@ -28,6 +30,9 @@ func _on_hero_moved(_from: Vector2i, to: Vector2i) -> void:
 	# Animate here if desired, then call:
 	# turn_manager_node.notify_animation_done(to)
 	# For now movement is instant — TurnManager._do_move() calls _on_animation_done directly.
+
+func _on_enemy_moved(id: String, _from: Vector2i, to: Vector2i) -> void:
+	world_map_node.refresh_enemy_position(id, to)
 
 func _position_hero(map_pos: Vector2i) -> void:
 	if hero_unit and world_tilemap:
